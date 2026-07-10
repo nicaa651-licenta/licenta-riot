@@ -1,0 +1,73 @@
+<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; font-family: 'Lato', arial;">
+  <div style="
+    background-color: #ffffff;
+    padding: 16px 32px;
+    border-radius: 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+  ">
+    <div style="max-width: 250px; margin-right: 16px;">
+      <p><span style="font-size:18px;"><b>Acceptă Cookies</b></span><br />
+      <span style="font-size:12px;">Daca doresti sa accepti plasarea de cookie-uri click pe "Accept", daca doresti mai multe detalii click <a href="politica.html">aici</a>.</span></p>
+    </div>
+    <div>
+      <button id="cookie-consent-button" style="
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        background-color: #28a745;
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "  onclick="acceptCookies()">
+        Accept
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var consentGiven = localStorage.getItem('cookieConsentGiven');
+
+    if (!consentGiven) {
+        document.getElementById("cookie-consent-banner").style.display = "block";
+    } else {
+        loadGTM();
+    }
+
+    document.getElementById("cookie-consent-button").addEventListener("click", acceptCookies);
+  });
+
+  function acceptCookies() {
+    localStorage.setItem('cookieConsentGiven', 'true');
+    document.getElementById("cookie-consent-banner").style.display = "none";
+    loadGTM();
+
+    // ✅ Try to remove iframe safely
+    try {
+      parent.document.getElementById('cookie-iframe')?.remove();
+    } catch (e) {
+      console.warn("Cannot remove iframe from parent — likely cross-origin issue.", e);
+    }
+  }
+
+  function loadGTM() {
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NX23DF9');
+  }
+</script>
